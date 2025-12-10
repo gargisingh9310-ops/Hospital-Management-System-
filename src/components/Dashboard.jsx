@@ -6,7 +6,7 @@ import Billing from "./Billing";
 import Inventory from "./Inventory";
 import DoctorFrom from "./DoctorFrom";
 import AppointmentList from "./AppointmentList";
-//import DoctorFrom from "./DoctorFrom";
+import "../stylesheet/Dashboard.css";
 
 
 export default function Dashboard({activeModule}) {

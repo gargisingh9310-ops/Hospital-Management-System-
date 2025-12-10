@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { DELETE_DOCTOR } from '../Redux/constants'
+import "../stylesheet/DoctorList.css"
 
 export default function DoctorList() {
   const dispatch= useDispatch()
