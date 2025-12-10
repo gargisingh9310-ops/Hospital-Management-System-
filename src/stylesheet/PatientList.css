@@ -1,0 +1,57 @@
+.patient-list {
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.patient-list h2 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.patient-list table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.patient-list th {
+  background-color: #007bff;
+  color: white;
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.patient-list td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.patient-list tr:hover {
+  background-color: #f9f9f9;
+}
+
+.patient-list .delete-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.patient-list .delete-btn:hover {
+  background-color: #c82333;
+}
+
+.patient-list p {
+  text-align: center;
+  color: #999;
+  padding: 20px;
+  font-size: 16px;
+}
