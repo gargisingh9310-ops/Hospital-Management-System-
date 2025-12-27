@@ -23,18 +23,18 @@ export default function AppointmentForm() {
   const[error, setError]= useState("");
 
   const handlePatientChange = (e)=>{
-    const patientId= e.target.value;
-    const patient= patients.find((p)=> p.id.toString() === patientId);
+    const patientId= Number(e.target.value);
+    const patient= patients.find((p)=> p.id === patientId);
     setForm({
         ...form,
     patientId,
-    patientName: patients? patient.name: "",
+    patientName: patient? patient.name: "",
     });
   };
 
   const handleDoctorChange= (e)=>{
-    const doctorId= e.target.value;
-    const doctor= doctors.find((d)=> d.id.toString() === doctorId);
+    const doctorId= Number(e.target.value);
+    const doctor= doctors.find((d)=> d.id === doctorId);
     setForm({
       ...form,
       doctorId,
@@ -49,6 +49,12 @@ export default function AppointmentForm() {
       apt.date === form.date &&
       apt.time === form.time
     );
+  };
+
+  const isDoctorAvailable=()=>{
+    const doctor= doctors.find((d)=> d.id === form.doctorId)
+    if(!doctor) return false;
+    return form.time >= doctor.startTime && form.time <= doctor.endTime
   };
 
   const handleSubmit= (e)=> {
@@ -68,6 +74,12 @@ export default function AppointmentForm() {
       setError ("pleace select date and time");
       return;
     }
+
+  if(!isDoctorAvailable()) {
+    const doctor = doctors.find((d) => d.id === form.doctorId);
+    setError(`Dr. ${doctor.name} is not available between ${doctor.startTime} - ${doctor.endTime}`)
+    return;
+  }
 
     if(isSlotBooked()){
       setError(`Dr. ${form.doctorName} is not available at ${form.time} on ${form.date}`);
@@ -117,7 +129,7 @@ export default function AppointmentForm() {
         </div>
         <div className='form-group'>
           <label htmlFor="">Select Doctor</label>
-          <select name="" id="" value={form.doctorId}
+          <select value={form.doctorId}
           onChange={handleDoctorChange}
           required
           >
@@ -143,8 +155,9 @@ export default function AppointmentForm() {
           </div>
 
           <div className='form-group'>
-            <label htmlFor="">Appointment Date</label>
-            <input type="time"
+            <label>Appointment Time</label>
+            <input 
+            type="time"
             value={form.time}
             onChange={(e)=>{
               setForm({...form, time: e.target.value})

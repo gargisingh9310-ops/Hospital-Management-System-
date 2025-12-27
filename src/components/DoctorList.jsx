@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { DELETE_DOCTOR } from '../Redux/constants'
 import "../stylesheet/DoctorList.css"
+import AppointmentList from './AppointmentList'
 
 export default function DoctorList() {
   const dispatch= useDispatch()
@@ -56,6 +57,7 @@ export default function DoctorList() {
                       ? "Hide Appointments"
                     : "view Appointments"}
                     </button>
+                    <button className='delete-btn' onClick={()=> handleDelete(doctor.id)}>Delete</button>
                   </td>
                 </tr>
               ))}
@@ -63,6 +65,11 @@ export default function DoctorList() {
           </table>
         )}
       </div>
+      {selectedDoctor && (
+        <div className='doctor-appointments'>
+          <AppointmentList doctorFilter={selectedDoctor.id}/>
+        </div>
+      )}
     </div>
   )
 }

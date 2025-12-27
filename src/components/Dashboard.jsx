@@ -2,11 +2,14 @@ import PatientForm from "./PatientForm";
 import PatientList from "./PatientList";
 import AppointmentForm from "./AppointmentForm";
 import DoctorList from "./DoctorList";
-import Billing from "./Billing";
-import Inventory from "./Inventory";
 import DoctorFrom from "./DoctorFrom";
 import AppointmentList from "./AppointmentList";
 import "../stylesheet/Dashboard.css";
+import MedicineForm from "./MedicineForm";
+import MedicineList from "./MedicineList";
+import PurchaseHistory from "./PurchaseHistory";
+import MedicineShop from "./MedicineShop";
+import Inventory from "./Inventory"
 
 
 export default function Dashboard({activeModule}) {
@@ -34,17 +37,25 @@ export default function Dashboard({activeModule}) {
       </div>
     );
   }
-  if(activeModule=== "billing"){
+  if(activeModule=== "inventory"){
     return(
       <div className='dashboard'>
-        <Billing/>
+        <MedicineForm/>
+        <MedicineList/>
       </div>
     );
   }
-  else{
+  if(activeModule === "medicine-shop"){
     return(
-      <div className='dashboard'>
-        <Inventory/>
+      <div className="dashboard">
+        <MedicineShop/>
+      </div>
+    )
+  }
+  if(activeModule=== "purchase-history"){
+    return(
+      <div className="dashboard">
+        <PurchaseHistory/>
       </div>
     );
   }

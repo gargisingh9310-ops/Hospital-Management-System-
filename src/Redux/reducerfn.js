@@ -1,4 +1,5 @@
-import { ADD_PATIENT, DELETE_PATIENT, ADD_APPOINTMENT, DELETE_APPOINTMENT, ADD_DOCTOR, DELETE_DOCTOR } from './constants'
+import { act } from 'react';
+import { ADD_PATIENT, DELETE_PATIENT, ADD_APPOINTMENT, DELETE_APPOINTMENT, ADD_DOCTOR, DELETE_DOCTOR, ADD_MEDICINE, DELETE_MEDICINE, ADD_BILL, DELETE_BILL ,  UPDATE_MEDICINE, ADD_PURCHASE_HISTORY, UPDATE_APPOINTMENT} from './constants'
 import { initialState } from './initialState';
 
 export default function reducerfn(state= initialState, action) {
@@ -25,6 +26,13 @@ export default function reducerfn(state= initialState, action) {
             const appointmentFiltered= state.appointments.filter((a)=> a.id !== action.payload);
             localStorage.setItem("appointments", JSON.stringify(appointmentFiltered));
             return{...state, appointments: appointmentFiltered};
+
+            case UPDATE_APPOINTMENT:
+                const updatedAppointments= state.appointments.map((a)=>
+                a.id === action.payload.id ? action.payload : a
+                );
+                localStorage.setItem("appointments", JSON.stringify(updatedAppointments));
+                return{...state, appointments: updatedAppointments};
       
             case ADD_DOCTOR:
             const doctorAdded= [...state.doctors, action.payload]; 
@@ -35,7 +43,40 @@ export default function reducerfn(state= initialState, action) {
             const doctorFiltered= state.doctors.filter((d)=> d.id !== action.payload);
             localStorage.setItem("doctors", JSON.stringify(doctorFiltered));
             return{...state, doctors: doctorFiltered}
+
+            case ADD_MEDICINE: 
+            const medicineAdded= [...state.medicines, action.payload]
+            localStorage.setItem("medicines", JSON.stringify(medicineAdded))
+            return {...state, medicines: medicineAdded};
+
+            case DELETE_MEDICINE:
+                const medicineFiltered= state.medicines.filter((m)=> m.id !== action.payload)
+                localStorage.setItem("medicines", JSON.stringify(medicineFiltered))
+                return{...state, medicines: medicineFiltered}
+
+            case ADD_BILL: 
+            const billAdded= [...state.bills, action.payload]
+            localStorage.setItem("bills", JSON.stringify(billAdded))
+            return {...state, bills: billAdded}
+            
+            case DELETE_BILL:
+                const billFiltered= state.bills.filter((b) => b.id !== action.payload)
+                localStorage.setItem("bill", JSON.stringify(billFiltered))
+                return{...state, bills: billFiltered}
+
+                case UPDATE_MEDICINE: 
+                const updateMedicines= state.medicines.map((m)=> m.id === action.payload.id ? action.payload : m)
+                localStorage.setItem("medicines", JSON.stringify(updateMedicines))
+                return{...state, medicines: updateMedicines}
+
+                case ADD_PURCHASE_HISTORY:
+                    const historyAdded= [...state.purchaseHistory, action.payload]
+                    localStorage.setItem("purchaseHistory", JSON.stringify(historyAdded))
+                    return{...state, purchaseHistory: historyAdded} 
+
+
       
-            default: return state;
+            default:
+             return state;
     }
 }

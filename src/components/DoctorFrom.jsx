@@ -11,7 +11,8 @@ export default function DoctorFrom() {
         phone: "",
         email: "",
         startTime: "09:00",
-        endTime: "17:00"
+        endTime: "17:00",
+        fee: "",
     });
 
     const handleSubmit = (e) => {
@@ -32,8 +33,9 @@ export default function DoctorFrom() {
         specialty: "",
         phone: "",
         email: "",
-        startTime: "9:00",
+        startTime: "09:00",
         endTime: "17:00",
+        fee:"",
     });
 alert("Doctor added successfully")
 }
@@ -103,11 +105,22 @@ alert("Doctor added successfully")
             onChange={(e)=> setForm({...form, endTime: e.target.value})} />
         </div>
 
+        <div className='form-group'>
+            <label>Consultation Fee (Rs.)</label>
+            <input type="number"
+            placeholder='consultation fee'
+            value={form.fee}
+            onChange={(e)=> setForm({...form, fee: Number(e.target.value)})}
+            required
+            min="0"
+            />
+        </div>
+
         <button type='submit'>Add Doctor</button>
         
 
     </form>
 
-  )
+  );
 
 }

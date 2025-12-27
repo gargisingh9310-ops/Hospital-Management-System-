@@ -1,0 +1,72 @@
+.medicine-list {
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.medicine-list h2 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.medicine-list table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.medicine-list th {
+  background-color: #17a2b8;
+  color: white;
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.medicine-list td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.medicine-list tr:hover {
+  background-color: #f9f9f9;
+}
+
+.quantity-badge {
+  display: inline-block;
+  background-color: #28a745;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.quantity-badge.low {
+  background-color: #ffc107;
+  color: #333;
+}
+
+.medicine-list .delete-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.medicine-list .delete-btn:hover {
+  background-color: #c82333;
+}
+
+.medicine-list p {
+  text-align: center;
+  color: #999;
+  padding: 20px;
+  font-size: 16px;
+}

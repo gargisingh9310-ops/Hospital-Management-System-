@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import BillGeneration from "./BillGeneration";
 import { DELETE_APPOINTMENT } from '../Redux/constants';
 import "../stylesheet/AppointmentList.css"
 
@@ -9,9 +10,10 @@ const appointments= useSelector((state)=> state.appointments);
 const patients= useSelector((state)=> state.patients);
 const doctors= useSelector((state)=> state.doctors);
 const [cancelConfirm, setCancelConfirm]= useState(null);
+const [billApointment, setBillAppointment]= useState(null);
 
 const filteredAppointments= doctorFilter
-? appointments.filter((apt)=> apt.doctorId === doctorFilter)
+? appointments.filter((apt) => apt.doctorId === doctorFilter)
 : appointments;
 
 const handleCancel= (id)=>{
@@ -30,8 +32,8 @@ const getDoctorName= (doctorId)=>{
     return doctor ? doctor.name : "unknown"
 }
  
-const formatDate = (dateStr)=>{
-    return new Date(dateStr).toLocaleDateString("en-IN")
+const formatDate = (date)=>{
+    return new Date(date).toLocaleDateString("en-IN")
 }
 
   return (
@@ -65,6 +67,10 @@ const formatDate = (dateStr)=>{
                                     <span className='label'>Date: </span>
                                     <span className='value'>{formatDate(apt.date)}</span>
                                 </div>
+                                <div className='detail-item'>
+                                    <span className='label'>Time:</span>
+                                    <span className='value'>{apt.time}</span>
+                                </div>
                                 <div className='details-item full-width'>
                                     <span className='label'>Reason:</span>
                                     <span className='value'>{apt.reason}</span>
@@ -84,14 +90,31 @@ const formatDate = (dateStr)=>{
                                     onClick={()=> setCancelConfirm(null)}>No, Keep</button>
                                 </div>
                             ) : (
-                                <button className='btn-delete'
-                                onClick={()=> setCancelConfirm(apt.id)}>Cancel Appointment</button>
+                                <div className='action-buttons'>
+                                    {!apt.visited ? (
+                                        <button className='btn-generate-bill' onClick={()=> setBillAppointment(apt)}>
+                                            Generate Bill
+                                        </button>
+                                    ): (
+                                        <span className='visited-badge'>✓ Visited</span>
+                                    )}
+                                    <button className='btn-delete' onClick={()=> setCancelConfirm(apt.id)}>
+                                        Cancel
+                                    </button>
+                                </div>
                             )}
                         </div>
                     </div>
                 ))}
             </div>
         ) }
+
+        {billApointment && (
+            <BillGeneration
+            appointment={billApointment}
+            onClose={()=> setBillAppointment(null)}
+            />
+        )}
     </div>
   )
 }
