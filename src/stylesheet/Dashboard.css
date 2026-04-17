@@ -1,3 +1,19 @@
 .dashboard{
     color: black;
 }
+
+/* ✅ Tablet */
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 15px;
+    font-size: 15px;
+  }
+}
+
+/* ✅ Mobile */
+@media (max-width: 480px) {
+  .dashboard {
+    padding: 10px;
+    font-size: 14px;
+  }
+}

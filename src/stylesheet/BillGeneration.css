@@ -229,3 +229,120 @@
     gap: 10px;
   }
 }
+
+
+/* ✅ Tablet */
+@media (max-width: 768px) {
+  .bill-modal {
+    width: 95%;
+    max-height: 85vh;
+  }
+
+  .bill-header {
+    padding: 15px;
+  }
+
+  .bill-content {
+    padding: 15px;
+  }
+
+  .patient-doctor-info {
+    gap: 15px;
+    padding: 12px;
+  }
+
+  .info-block p {
+    font-size: 14px;
+  }
+
+  .bill-section h3 {
+    font-size: 15px;
+  }
+
+  .fee-item {
+    padding: 8px;
+  }
+
+  .medicine-item {
+    padding: 10px;
+  }
+
+  .summary-row {
+    font-size: 13px;
+  }
+
+  .summary-row.total {
+    font-size: 15px;
+  }
+}
+
+/* ✅ Mobile (small phones) */
+@media (max-width: 480px) {
+  .bill-modal {
+    width: 95%;
+    max-height: 92vh;
+    border-radius: 6px;
+  }
+
+  .bill-header {
+    padding: 12px;
+  }
+
+  .bill-header h2 {
+    font-size: 16px;
+  }
+
+  .close-btn {
+    font-size: 20px;
+  }
+
+  .bill-content {
+    padding: 12px;
+  }
+
+  .info-block label {
+    font-size: 11px;
+  }
+
+  .info-block p {
+    font-size: 13px;
+  }
+
+  .medicine-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .medicine-info {
+    flex-direction: column !important;
+    gap: 5px;
+  }
+
+  .medicine-name {
+    font-size: 13px;
+  }
+
+  .medicine-price {
+    font-size: 13px;
+  }
+
+  .bill-actions {
+    flex-direction: column;   /* buttons neeche */
+  }
+
+  .btn-generate,
+  .btn-cancel {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .summary-row {
+    font-size: 12px;
+  }
+
+  .summary-row.total {
+    font-size: 14px;
+  }
+}

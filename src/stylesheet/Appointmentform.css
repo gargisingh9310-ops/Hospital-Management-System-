@@ -79,3 +79,68 @@
 .appointment-form button:active{
     transform: scale(0.98);
 }
+
+
+/* ✅ Tablet */
+@media (max-width: 768px) {
+  .appointment-form{
+    max-width: 90%;      /* screen ke according fit */
+    padding: 20px;
+    margin: 15px auto;
+  }
+
+  .appointment-form h2{
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  .form-group{
+    margin-bottom: 15px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea{
+    padding: 9px;
+    font-size: 13px;
+  }
+
+  .appointment-form button{
+    padding: 11px;
+    font-size: 15px;
+  }
+}
+
+/* ✅ Mobile (small phones) */
+@media (max-width: 480px) {
+  .appointment-form{
+    max-width: 95%;
+    padding: 15px;
+    border-radius: 6px;
+  }
+
+  .appointment-form h2{
+    font-size: 18px;
+  }
+
+  .form-group label{
+    font-size: 13px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea{
+    padding: 8px;
+    font-size: 12px;
+  }
+
+  .error-message{
+    font-size: 12px;
+    padding: 10px;
+  }
+
+  .appointment-form button{
+    padding: 10px;
+    font-size: 14px;
+  }
+}

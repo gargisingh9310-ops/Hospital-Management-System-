@@ -170,3 +170,82 @@
     padding: 8px;
   }
 }
+
+/* ✅ Improve Tablet */
+@media (max-width: 768px) {
+  .purchase-header {
+    padding: 12px 15px;
+  }
+
+  .purchase-body {
+    padding: 15px;
+  }
+
+  .purchase-footer {
+    padding: 10px 15px;
+  }
+
+  .purchase-total {
+    font-size: 20px;
+  }
+}
+
+/* ✅ Mobile */
+@media (max-width: 480px) {
+  .purchase-history-container {
+    padding: 10px;
+  }
+
+  .purchase-history {
+    padding: 10px;
+  }
+
+  .purchase-history h2 {
+    font-size: 18px;
+  }
+
+  /* 🔍 Filter section */
+  .filter-section {
+    padding: 10px;
+  }
+
+  .filter-section label {
+    font-size: 13px;
+  }
+
+  .filter-section select {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  /* 🧾 Purchase card */
+  .purchase-header {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .purchase-total {
+    align-self: flex-end;
+    font-size: 18px;
+  }
+
+  .purchase-body {
+    padding: 10px;
+    overflow-x: auto;   /* 🔥 important */
+  }
+
+  .purchase-body table {
+    min-width: 500px;   /* table compress nahi hoga */
+  }
+
+  .purchase-body th,
+  .purchase-body td {
+    padding: 8px;
+    font-size: 12px;
+  }
+
+  .btn-print-receipt {
+    padding: 10px;
+    font-size: 13px;
+  }
+}

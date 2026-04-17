@@ -214,3 +214,90 @@
     font-size: 12px;
   }
 }
+
+/* ✅ Improve Tablet */
+@media (max-width: 768px) {
+  .summary-card {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .card-content h4 {
+    font-size: 13px;
+  }
+
+  .card-amount {
+    font-size: 15px;
+  }
+
+  .card-percentage {
+    font-size: 12px;
+  }
+
+  .total-amount {
+    font-size: 24px;
+  }
+}
+
+/* ✅ Mobile */
+@media (max-width: 480px) {
+  .sales-analytics {
+    padding: 10px;
+    margin: 10px;
+  }
+
+  .sales-analytics h2 {
+    font-size: 18px;
+  }
+
+  .chart-section,
+  .summary-section {
+    padding: 12px;
+    border-radius: 6px;
+  }
+
+  .chart-section h3,
+  .summary-section h3 {
+    font-size: 15px;
+  }
+
+  /* 📊 Chart labels */
+  .pie-label {
+    font-size: 12px;
+  }
+
+  /* 📦 Summary cards */
+  .summary-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .card-color {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* 💰 Total */
+  .total-collection {
+    padding: 12px;
+  }
+
+  .total-amount {
+    font-size: 20px;
+  }
+
+  /* 📋 Table scroll fix */
+  .breakdown-table {
+    overflow-x: auto;
+  }
+
+  .breakdown-table table {
+    min-width: 500px;   /* 🔥 prevent squeeze */
+  }
+
+  .breakdown-table th,
+  .breakdown-table td {
+    padding: 8px;
+    font-size: 11px;
+  }
+}

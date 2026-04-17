@@ -21,3 +21,26 @@
   overflow-y: auto;
   background-color: #f5f5f5;
 }
+
+/* ✅ Mobile Responsive */
+@media (max-width: 768px) {
+  .app-container {
+    flex-direction: column;   /* side-by-side se upar-niche */
+    height: auto;             /* fixed height hata diya */
+  }
+
+  .main-content {
+    width: 100%;
+  }
+
+  .dashboard-container {
+    padding: 10px;            /* thoda compact */
+  }
+}
+
+/* ✅ Extra Small Devices */
+@media (max-width: 480px) {
+  .dashboard-container {
+    padding: 8px;
+  }
+}

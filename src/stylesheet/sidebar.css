@@ -21,3 +21,39 @@
 .sidebar button:hover {
   background-color: #d1d1d1;
 }
+
+/* ✅ Tablet */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    flex-direction: row;   /* horizontal */
+    overflow-x: auto;      /* scroll if needed */
+    padding: 10px;
+  }
+
+  .sidebar button {
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+}
+
+/* ✅ Mobile */
+@media (max-width: 480px) {
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    gap: 8px;
+    padding: 8px;
+    position: sticky;   /* top pe chipak jayega */
+    top: 0;
+    z-index: 999;
+    background-color: #e0e0e0;
+  }
+
+  .sidebar button {
+    font-size: 12px;
+    padding: 7px 10px;
+  }
+}

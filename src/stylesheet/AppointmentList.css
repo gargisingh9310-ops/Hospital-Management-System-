@@ -217,3 +217,97 @@
     flex-direction: column;
   }
 }
+
+
+/* ✅ Tablet Improvement */
+@media (max-width: 768px) {
+  .appointment-list {
+    padding: 15px;
+  }
+
+  .appointment-cards {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .card-header {
+    padding: 15px;
+  }
+
+  .card-body {
+    padding: 15px;
+  }
+
+  .card-footer {
+    padding: 12px 15px;
+  }
+
+  .info-group p {
+    font-size: 14px;
+  }
+
+  .detail-item .value {
+    font-size: 13px;
+  }
+}
+
+/* ✅ Mobile (small phones) */
+@media (max-width: 480px) {
+  .appointment-list {
+    padding: 10px;
+  }
+
+  .appointment-list h2 {
+    font-size: 18px;
+  }
+
+  .appointment-card {
+    border-radius: 6px;
+  }
+
+  .card-header {
+    padding: 12px;
+  }
+
+  .card-body {
+    padding: 12px;
+  }
+
+  .card-footer {
+    padding: 10px;
+  }
+
+  .info-group label {
+    font-size: 11px;
+  }
+
+  .info-group p {
+    font-size: 13px;
+  }
+
+  .detail-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .detail-item .label {
+    font-size: 12px;
+  }
+
+  .detail-item .value {
+    font-size: 13px;
+  }
+
+  .action-buttons {
+    flex-direction: column;   /* buttons neeche aa jayenge */
+  }
+
+  .btn-generate-bill,
+  .btn-delete,
+  .visited-badge {
+    width: 100%;
+    font-size: 13px;
+    padding: 9px;
+  }
+}

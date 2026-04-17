@@ -98,3 +98,57 @@
 .doctor-appointments {
   margin-top: 20px;
 }
+
+/* ✅ Tablet */
+@media (max-width: 768px) {
+  .doctor-list {
+    padding: 15px;
+  }
+
+  .doctor-list th,
+  .doctor-list td {
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  .action-buttons {
+    gap: 6px;
+  }
+}
+
+/* ✅ Mobile (scrollable table) */
+@media (max-width: 480px) {
+  .doctor-list {
+    padding: 10px;
+  }
+
+  .doctor-list h2 {
+    font-size: 18px;
+  }
+
+  /* 🔥 Important: table scroll */
+  .doctor-list {
+    overflow-x: auto;
+  }
+
+  .doctor-list table {
+    min-width: 500px;  /* table compress nahi hoga */
+  }
+
+  .doctor-list th,
+  .doctor-list td {
+    padding: 8px;
+    font-size: 12px;
+  }
+
+  .view-btn,
+  .delete-btn {
+    font-size: 11px;
+    padding: 5px 8px;
+  }
+
+  .appointment-badge {
+    font-size: 11px;
+    padding: 3px 8px;
+  }
+}

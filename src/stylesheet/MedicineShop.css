@@ -353,3 +353,111 @@
     margin-left: 0;
   }
 }
+
+
+/* ✅ Improve Tablet */
+@media (max-width: 768px) {
+  .shop-left,
+  .shop-right {
+    padding: 15px;
+  }
+
+  .search-box {
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  .medicine-card {
+    padding: 12px;
+  }
+
+  .medicine-header h4 {
+    font-size: 14px;
+  }
+
+  .medicine-details p {
+    font-size: 12px;
+  }
+
+  .btn-add-cart {
+    padding: 9px;
+    font-size: 13px;
+  }
+}
+
+/* ✅ Mobile (proper stacking + usability) */
+@media (max-width: 480px) {
+  .medicine-shop {
+    padding: 8px;
+  }
+
+  .shop-container {
+    gap: 10px;
+  }
+
+  .shop-left,
+  .shop-right {
+    padding: 12px;
+    border-radius: 6px;
+  }
+
+  .shop-header h2 {
+    font-size: 18px;
+  }
+
+  .search-box {
+    font-size: 12px;
+    padding: 9px;
+  }
+
+  .medicines-grid {
+    grid-template-columns: 1fr; /* single column */
+  }
+
+  .medicine-card {
+    padding: 10px;
+  }
+
+  .medicine-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .price {
+    font-size: 13px;
+    padding: 5px 10px;
+  }
+
+  /* 🛒 Cart section */
+  .cart-items {
+    max-height: 250px;
+  }
+
+  .cart-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .item-quantity {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .item-subtotal {
+    align-items: flex-start;
+  }
+
+  .summary-row {
+    font-size: 13px;
+  }
+
+  .summary-row.total {
+    font-size: 14px;
+  }
+
+  .btn-checkout {
+    padding: 10px;
+    font-size: 14px;
+  }
+}

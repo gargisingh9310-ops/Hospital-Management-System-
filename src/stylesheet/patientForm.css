@@ -26,3 +26,36 @@
 .patient-form button:hover {
   background-color: #1565c0;
 }
+
+/* ✅ Tablet */
+@media (max-width: 768px) {
+  .patient-form {
+    flex-wrap: wrap;   /* wrap hone lage */
+    gap: 8px;
+  }
+
+  .patient-form input,
+  .patient-form select {
+    flex: 1 1 45%;   /* 2 columns */
+  }
+
+  .patient-form button {
+    flex: 1 1 100%;  /* full width button */
+  }
+}
+
+/* ✅ Mobile */
+@media (max-width: 480px) {
+  .patient-form {
+    flex-direction: column;  /* ek ke niche ek */
+    padding: 12px;
+  }
+
+  .patient-form input,
+  .patient-form select,
+  .patient-form button {
+    width: 100%;
+    font-size: 13px;
+    padding: 8px;
+  }
+}

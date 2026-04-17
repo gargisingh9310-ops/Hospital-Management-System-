@@ -55,3 +55,48 @@
   padding: 20px;
   font-size: 16px;
 }
+
+/* ✅ Tablet */
+@media (max-width: 768px) {
+  .patient-list {
+    padding: 15px;
+  }
+
+  .patient-list th,
+  .patient-list td {
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  .patient-list .delete-btn {
+    padding: 5px 10px;
+    font-size: 13px;
+  }
+}
+
+/* ✅ Mobile */
+@media (max-width: 480px) {
+  .patient-list {
+    padding: 10px;
+    overflow-x: auto;   /* 🔥 scroll enable */
+  }
+
+  .patient-list h2 {
+    font-size: 18px;
+  }
+
+  .patient-list table {
+    min-width: 500px;   /* compress hone se bachayega */
+  }
+
+  .patient-list th,
+  .patient-list td {
+    padding: 8px;
+    font-size: 12px;
+  }
+
+  .patient-list .delete-btn {
+    padding: 5px 8px;
+    font-size: 12px;
+  }
+}
