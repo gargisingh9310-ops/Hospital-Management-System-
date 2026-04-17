@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {DELETE_PATIENT} from '../Redux/constants'
-import '../stylesheet/patientList.css'
+import '../stylesheet/PatientList.css'
 
 export default function PatientList() {
   const dispatch= useDispatch()
