@@ -1,6 +1,6 @@
 import React from 'react'
-import "../stylesheet/Sidebar.css"
-export default function Sidebar({setActiveModule}) {
+import "../stylesheet/sidebar.css"
+ export default function Sidebar({setActiveModule}) {
   return (
     <div className='sidebar'>
       <button onClick={()=> setActiveModule("patients")}>Patients</button>
