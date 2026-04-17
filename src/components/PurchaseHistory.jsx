@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import SalesAnalytics from './SalesAnalytics';
-import "../stylesheet/PurchaseHistory.css";
+import "../stylesheet/purchaseHistory.css";
 
 export default function PurchaseHistory() {
   const purchaseHistory= useSelector((state) => state.purchaseHistory)

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ADD_APPOINTMENT } from '../Redux/constants';
-import "../stylesheet/AppointmentForm.css"
+import "../stylesheet/Appointmentform.css"
 
 
 export default function AppointmentForm() {

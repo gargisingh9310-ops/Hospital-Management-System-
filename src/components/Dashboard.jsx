@@ -9,7 +9,7 @@ import MedicineForm from "./MedicineForm";
 import MedicineList from "./MedicineList";
 import PurchaseHistory from "./PurchaseHistory";
 import MedicineShop from "./MedicineShop";
-import Inventory from "./Inventory"
+
 
 
 export default function Dashboard({activeModule}) {

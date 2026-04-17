@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { addPatient} from '../Redux/actions'
-import "../stylesheet/PatientForm.css"
+import "../stylesheet/patientForm.css"
 
 export default function PatientForm() {
  const dispatch= useDispatch();
