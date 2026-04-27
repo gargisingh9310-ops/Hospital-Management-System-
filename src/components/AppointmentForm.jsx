@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Popup from "./Popup";
 import { useDispatch, useSelector } from "react-redux";
 import { ADD_APPOINTMENT } from "../Redux/constants";
 import { FiUser, FiCalendar, FiClock, FiFileText } from "react-icons/fi";
@@ -11,7 +10,8 @@ export default function AppointmentForm() {
   const doctors = useSelector((state) => state.doctors);
   const appointments = useSelector((state) => state.appointments);
 
-  const [popup, setPopup] = useState(null);   // ✅ POPUP STATE
+  const [popup, setPopup] = useState(false); 
+  const [popupMsg, setPopupMsg] = useState("");
 
   const [form, setForm] = useState({
     patientId: "",
@@ -85,8 +85,9 @@ export default function AppointmentForm() {
 
     setError("");
 
-    // ✅ POPUP SUCCESS
-    setPopup("Appointment booked successfully!");
+    // ✅ POPUP
+    setPopupMsg("Appointment booked successfully!");
+    setPopup(true);
   };
 
   return (
@@ -98,15 +99,12 @@ export default function AppointmentForm() {
         {error && <div className="error-message">{error}</div>}
 
         <div className="form-grid">
-
           <div className="form-group">
             <label><FiUser /> Patient</label>
             <select value={form.patientId} onChange={handlePatientChange}>
               <option value="">Select Patient</option>
               {patients.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.name} ({p.age})
-                </option>
+                <option key={p.id} value={p.id}>{p.name}</option>
               ))}
             </select>
           </div>
@@ -117,7 +115,7 @@ export default function AppointmentForm() {
               <option value="">Select Doctor</option>
               {doctors.map((d) => (
                 <option key={d.id} value={d.id}>
-                  Dr. {d.name} ({d.specialty})
+                  Dr. {d.name}
                 </option>
               ))}
             </select>
@@ -154,12 +152,14 @@ export default function AppointmentForm() {
         <button type="submit">Book Appointment</button>
       </form>
 
-      {/* ✅ POPUP COMPONENT */}
+      {/* ✅ INLINE POPUP (NO FILE NEEDED) */}
       {popup && (
-        <Popup
-          message={popup}
-          onClose={() => setPopup(null)}
-        />
+        <div className="popup-overlay">
+          <div className="popup-box">
+            <p>{popupMsg}</p>
+            <button onClick={() => setPopup(false)}>OK</button>
+          </div>
+        </div>
       )}
     </div>
   );

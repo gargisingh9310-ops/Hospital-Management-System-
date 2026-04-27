@@ -137,6 +137,42 @@ button:active {
   border-radius: 10px;
 }
 
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.popup-box {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  min-width: 250px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.popup-box p {
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+.popup-box button {
+  padding: 8px 15px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
 /* ========================= */
 /* ===== RESPONSIVE ===== */
 /* ========================= */
