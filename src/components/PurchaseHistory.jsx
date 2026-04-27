@@ -1,166 +1,143 @@
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
-import SalesAnalytics from './SalesAnalytics';
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import SalesAnalytics from "./SalesAnalytics";
+import { FiPrinter } from "react-icons/fi";
 import "../stylesheet/PurchaseHistory.css";
 
 export default function PurchaseHistory() {
-  const purchaseHistory= useSelector((state) => state.purchaseHistory)
-  const [filterPatient, setFilterPatient]= useState("");
+  const purchaseHistory = useSelector((state) => state.purchaseHistory);
+  const [filterPatient, setFilterPatient] = useState("");
 
-  const filteredPurchase= filterPatient
-  ? purchaseHistory.filter((p) => p.patientId === filterPatient)
-  : purchaseHistory;
+  const filtered = filterPatient
+    ? purchaseHistory.filter((p) => p.patientId.toString() === filterPatient)
+    : purchaseHistory;
 
-  const handlePrint= (purchase) => {
-    const printWindow= window.open("", "", "height=600, width=800")
-    printWindow.document.write(`
+  const handlePrint = (purchase) => {
+    const w = window.open("", "", "height=600,width=800");
+
+    w.document.write(`
       <html>
-        <head>
-          <title>purchase Receipt- ${purchase.patientName}</title>
-          <style>
-           body {font-family: Arial, sans-serif; margin: 20px;}
-    .receipt-container{max-width: 600px; margin: 0 auto;}
-    .receipt-header{text-align:center; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 20px;}
-    .receipt-header h1{margin: 0;}
-    .receipt-header p{margin: 5px 0; color: #666;}
-    .info-section{margin: 20px 0; display: flex; justify-content: space-between;}
-    .info-block{flex: 1;}
-    .info-block label{font-weight: bold; color: #666; font-size: 12px;}
-    .info-block p{margin: 5px 0;}
-    table{width: 100%; border-collapse: collapse; margin: 20px 0;}
-    th{background-color: #f0f0f0; padding: 10px; text-align: left; border-bottom: 1px solid #ddd; font-weight: bold;}
-    td{padding: 10px; border-bottom: 1px solid #ddd;}
-    .total-section{text-align: right; font-weight: bold; font-size: 18px; padding-top: 20px; border-top: 2px solid #333;}
-    .receipt-footer{text-align: center; margin-top: 30px; color: #999;}
-  </style>
-</head>
-<body>
-  <div class="receipt-container">
-    <div class="receipt-header">
-      <h1>Hospital Management System</h1>
-      <p>Medicine purchase Receipt</p>
-    </div>
+      <head>
+        <title>Receipt - ${purchase.patientName}</title>
+        <style>
+          body{font-family:Arial;padding:20px}
+          h1{text-align:center}
+          table{width:100%;border-collapse:collapse;margin-top:20px}
+          th,td{border-bottom:1px solid #ddd;padding:8px;text-align:left}
+          .total{margin-top:20px;text-align:right;font-weight:bold}
+        </style>
+      </head>
+      <body>
+        <h1>Hospital Receipt</h1>
+        <p><strong>Patient:</strong> ${purchase.patientName}</p>
+        <p><strong>Date:</strong> ${purchase.date} | ${purchase.time}</p>
 
-    <div class="info-section">
-      <div class="info-block">
-        <label>Patient:</label>
-        <p>${purchase.date}</p>
-      </div>
-      <div class="info-block">
-        <label>Time:</label>
-        <p>${purchase.time}</p>
-      </div>
-    </div>
-
-    <table>
-      <thead>
-        <tr>
-          <th>Medicine Name</th>
-          <th>Quantity</th>
-          <th>Price</th>
-          <th>Subtotal</th>
-        </tr>
-      </thead>
-        <tbody>
-          ${purchase.medicines.map((med)=>`
+        <table>
+          <thead>
             <tr>
-              <td>${med.name}</td>
-              <td>${med.quantity}</td>
-              <td>${med.price}</td>
-              <td>${med.subtotal}</td>
+              <th>Medicine</th>
+              <th>Qty</th>
+              <th>Price</th>
+              <th>Total</th>
             </tr>
-            `).join("")}
-        </tbody>
-    </table>
+          </thead>
+          <tbody>
+            ${purchase.medicines
+              .map(
+                (m) => `
+              <tr>
+                <td>${m.name}</td>
+                <td>${m.quantity}</td>
+                <td>${m.price}</td>
+                <td>${m.subtotal}</td>
+              </tr>`
+              )
+              .join("")}
+          </tbody>
+        </table>
 
-    <div class="total-section">
-      <div>Total Amount: ₹${purchase.totalAmount}</div>
-    </div>
+        <div class="total">Total: ₹${purchase.totalAmount}</div>
+      </body>
+      </html>
+    `);
 
-    <div class="receipt-footer">
-      <p>Thank you for shopping with us!</p>
-    </div>
-  </div>
-</body>
-</html>
-`);
-printWindow.document.close();
-printWindow.print();
+    w.document.close();
+    w.print();
   };
 
   return (
-    <div className='purchase-history-container'>
-      <SalesAnalytics/>
+    <div className="purchase-container">
+      <SalesAnalytics />
 
-      <div className='purchase-history'>
+      <div className="purchase-history">
         <h2>Purchase History</h2>
 
         {purchaseHistory.length > 0 && (
-          <div className='filter-section'>
-            <label htmlFor="">filter by patient:</label>
+          <div className="filter">
+            <label>Filter by Patient</label>
             <select
-            value={filterPatient}
-            onChange={(e) => setFilterPatient(e.target.value)}>
-              <option value="">All patients</option>
-              {[...new Map(purchaseHistory.map((p)=> [p.patientId, p])).values()].map(
-                (p) => (
-                <option key={p.patientId} value={p.patientId}>{p.patientName}</option>
-                )
-              )}
+              value={filterPatient}
+              onChange={(e) => setFilterPatient(e.target.value)}
+            >
+              <option value="">All</option>
+              {[...new Map(purchaseHistory.map(p => [p.patientId, p])).values()]
+                .map((p) => (
+                  <option key={p.patientId} value={p.patientId}>
+                    {p.patientName}
+                  </option>
+                ))}
             </select>
           </div>
         )}
 
-        {filteredPurchase.length === 0 ? (
-          <p className='no-data'>No purchase found</p>
-        ): (
-          <div className='purchase-list'>
-            {filteredPurchase.map((purchase) => (
-              <div key={purchase.id} className='purchase-card'>
-                <div className='purchase-header'>
+        {filtered.length === 0 ? (
+          <p className="empty">No purchases found</p>
+        ) : (
+          <div className="cards">
+            {filtered.map((p) => (
+              <div key={p.id} className="card">
+                <div className="card-head">
                   <div>
-                    <h3>{purchase.patientName}</h3>
-                    <p className='purchase-data'>
-                      {purchase.date} . {purchase.time}
-                    </p>
+                    <h3>{p.patientName}</h3>
+                    <p>{p.date} • {p.time}</p>
                   </div>
-                  <div className='purchase-total'>₹{purchase.totalAmount}</div>
+                  <span className="amount">₹{p.totalAmount}</span>
                 </div>
 
-                <div className='purchase-body'>
+                <div className="table-wrap">
                   <table>
                     <thead>
                       <tr>
                         <th>Medicine</th>
                         <th>Qty</th>
                         <th>Price</th>
-                        <th>Subtotal</th>
+                        <th>Total</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {purchase.medicines.map((med, idx) => (
-                        <tr key={idx}>
-                          <td>{med.name}</td>
-                          <td>{med.quantity}</td>
-                          <td>{med.price}</td>
-                          <td>{med.subtotal}</td>
+                      {p.medicines.map((m, i) => (
+                        <tr key={i}>
+                          <td>{m.name}</td>
+                          <td>{m.quantity}</td>
+                          <td>{m.price}</td>
+                          <td>{m.subtotal}</td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
                 </div>
 
-                <div className='purchase-footer'>
-                  <button className='btn-print-receipt'
-                  onClick={()=> handlePrint(purchase)}>
-                    Print Receipt
-                  </button>
-                </div>
+                <button
+                  className="btn-print"
+                  onClick={() => handlePrint(p)}
+                >
+                  <FiPrinter /> Print
+                </button>
               </div>
             ))}
           </div>
         )}
       </div>
     </div>
-  )
+  );
 }

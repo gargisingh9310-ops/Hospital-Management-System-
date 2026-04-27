@@ -1,183 +1,141 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer } from "recharts";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Legend,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 import "../stylesheet/SalesAnalytics.css";
 
 export default function SalesAnalytics() {
   const bills = useSelector((state) => state.bills) || [];
   const purchaseHistory = useSelector((state) => state.purchaseHistory) || [];
 
-  const calculateCollectionData = () => {
-    let doctorFeesTotal = 0;
-    let medicinesTotal = 0;
+  const calculateData = () => {
+    let doctor = 0;
+    let meds = 0;
 
-    bills.forEach((bill) => {
-      doctorFeesTotal += bill.doctorFee || 0;
-      if (bill.medicines && bill.medicines.length > 0) {
-        bill.medicines.forEach((med) => {
-          medicinesTotal += med.price || 0;
-        });
-      }
+    bills.forEach((b) => {
+      doctor += b.doctorFee || 0;
+      b.medicines?.forEach((m) => (meds += m.price || 0));
     });
 
-    purchaseHistory.forEach((purchase) => {
-      if (purchase.medicines && purchase.medicines.length > 0) {
-        purchase.medicines.forEach((med) => {
-          medicinesTotal += med.subtotal || 0;
-        });
-      }
+    purchaseHistory.forEach((p) => {
+      p.medicines?.forEach((m) => (meds += m.subtotal || 0));
     });
 
-    const totalCollection = doctorFeesTotal + medicinesTotal;
-
-    if (totalCollection === 0) {
-      return [];
-    }
+    const total = doctor + meds;
+    if (!total) return [];
 
     return [
       {
         name: "Doctor Fees",
-        value: Math.round(doctorFeesTotal),
-        percentage: Math.round((doctorFeesTotal / totalCollection) * 100),
+        value: doctor,
+        percentage: Math.round((doctor / total) * 100),
       },
       {
-        name: "Medicines Sale",
-        value: Math.round(medicinesTotal),
-        percentage: Math.round((medicinesTotal / totalCollection) * 100),
+        name: "Medicines",
+        value: meds,
+        percentage: Math.round((meds / total) * 100),
       },
     ];
   };
 
-  const data = calculateCollectionData();
-  const totalCollection = data.reduce((sum, item) => sum + item.value, 0);
+  const data = calculateData();
+  const total = data.reduce((a, b) => a + b.value, 0);
 
-  const COLORS = ["#667eea", "#764ba2"];
-
-  const CustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percentage }) => {
-    const RADIAN = Math.PI / 180;
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-    const x = cx + radius * Math.cos(-midAngle * RADIAN);
-    const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
-    return (
-      <text
-        x={x}
-        y={y}
-        fill="white"
-        textAnchor={x > cx ? "start" : "end"}
-        dominantBaseline="central"
-        className="pie-label"
-      >
-        {`${percentage}%`}
-      </text>
-    );
-  };
+  const COLORS = ["#4f46e5", "#06b6d4"];
 
   return (
-    <div className="sales-analytics">
+    <div className="analytics">
       <h2>Hospital Revenue Analytics</h2>
 
       {data.length === 0 ? (
-        <div className="no-data-analytics">
-          <p>No sales data available yet</p>
-        </div>
+        <div className="no-data">No revenue data available</div>
       ) : (
-        <>
-          <div className="analytics-container">
-            <div className="chart-section">
-              <h3>Revenue Distribution</h3>
-              <ResponsiveContainer width="100%" height={300}>
-                <PieChart>
-                  <Pie
-                    data={data}
-                    cx="50%"
-                    cy="50%"
-                    labelLine={false}
-                    label={(props) => (
-                      <CustomLabel
-                        {...props}
-                        percentage={props.payload.percentage}
-                      />
-                    )}
-                    outerRadius={100}
-                    fill="#8884d8"
-                    dataKey="value"
-                  >
-                    {data.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index]} />
-                    ))}
-                  </Pie>
-                  <Tooltip
-                    formatter={(value) => `₹${value}`}
-                    contentStyle={{
-                      backgroundColor: "#fff",
-                      border: "1px solid #ccc",
-                      borderRadius: "4px",
-                    }}
-                  />
-                  <Legend
-                    verticalAlign="bottom"
-                    height={36}
-                    formatter={(value, entry) =>
-                      `${entry.payload.name} (${entry.payload.percentage}%)`
-                    }
-                  />
-                </PieChart>
-              </ResponsiveContainer>
+        <div className="analytics-grid">
+          {/* CHART */}
+          <div className="chart-card">
+            <h3>Revenue Distribution</h3>
+
+            <ResponsiveContainer width="100%" height={280}>
+              <PieChart>
+                <Pie
+                  data={data}
+                  dataKey="value"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={95}
+                  label
+                >
+                  {data.map((_, i) => (
+                    <Cell key={i} fill={COLORS[i]} />
+                  ))}
+                </Pie>
+
+                <Tooltip />
+                <Legend />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* SUMMARY */}
+          <div className="summary-card">
+            <h3>Summary</h3>
+
+            <div className="cards">
+              {data.map((item, i) => (
+                <div key={i} className="mini-card">
+                  <span
+                    className="dot"
+                    style={{ background: COLORS[i] }}
+                  ></span>
+
+                  <div>
+                    <h4>{item.name}</h4>
+                    <p>₹{item.value.toLocaleString()}</p>
+                    <small>{item.percentage}%</small>
+                  </div>
+                </div>
+              ))}
             </div>
 
-            <div className="summary-section">
-              <h3>Collection Summary</h3>
-              <div className="summary-cards">
-                {data.map((item, index) => (
-                  <div key={index} className="summary-card">
-                    <div
-                      className="card-color"
-                      style={{ backgroundColor: COLORS[index] }}
-                    ></div>
-                    <div className="card-content">
-                      <h4>{item.name}</h4>
-                      <p className="card-amount">₹{item.value.toLocaleString()}</p>
-                      <p className="card-percentage">{item.percentage}%</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+            <div className="total-box">
+              <p>Total Collection</p>
+              <h2>₹{total.toLocaleString()}</h2>
+            </div>
 
-              <div className="total-collection">
-                <label>Total Hospital Collection:</label>
-                <p className="total-amount">₹{totalCollection.toLocaleString()}</p>
-              </div>
-
-              <div className="breakdown-table">
-                <h4>Detailed Breakdown</h4>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Revenue Source</th>
-                      <th>Amount</th>
-                      <th>Percentage</th>
+            {/* TABLE */}
+            <div className="table-box">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Source</th>
+                    <th>Amount</th>
+                    <th>%</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.map((d, i) => (
+                    <tr key={i}>
+                      <td>{d.name}</td>
+                      <td>₹{d.value}</td>
+                      <td>{d.percentage}%</td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {data.map((item, index) => (
-                      <tr key={index}>
-                        <td>{item.name}</td>
-                        <td>₹{item.value.toLocaleString()}</td>
-                        <td>{item.percentage}%</td>
-                      </tr>
-                    ))}
-                    <tr className="total-row">
-                      <td>Total</td>
-                      <td>₹{totalCollection.toLocaleString()}</td>
-                      <td>100%</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+                  ))}
+                  <tr className="total-row">
+                    <td>Total</td>
+                    <td>₹{total}</td>
+                    <td>100%</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
-        </>
+        </div>
       )}
     </div>
   );

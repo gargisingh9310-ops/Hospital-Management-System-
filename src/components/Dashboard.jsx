@@ -2,61 +2,67 @@ import PatientForm from "./PatientForm";
 import PatientList from "./PatientList";
 import AppointmentForm from "./AppointmentForm";
 import DoctorList from "./DoctorList";
-import DoctorFrom from "./DoctorFrom";
+import DoctorForm from "./DoctorForm";
 import AppointmentList from "./AppointmentList";
-import "../stylesheet/Dashboard.css";
 import MedicineForm from "./MedicineForm";
 import MedicineList from "./MedicineList";
 import PurchaseHistory from "./PurchaseHistory";
 import MedicineShop from "./MedicineShop";
+import "../stylesheet/Dashboard.css";
 
+export default function Dashboard({ activeModule }) {
+  const renderContent = () => {
+    switch (activeModule) {
+      case "patients":
+        return (
+          <>
+            <div className="dashboard-card"><PatientForm /></div>
+            <div className="dashboard-card"><PatientList /></div>
+          </>
+        );
 
+      case "appointments":
+        return (
+          <>
+            <div className="dashboard-card"><AppointmentForm /></div>
+            <div className="dashboard-card"><AppointmentList /></div>
+          </>
+        );
 
-export default function Dashboard({activeModule}) {
-  if(activeModule ==="patients"){
-    return( 
-      <div className='dashboard'>
-        <PatientForm/>
-        <PatientList/>
-      </div>
-    );
-  }
-  if(activeModule === "appointments"){
-    return(
-      <div className='dashboard'>
-        <AppointmentForm/>
-        <AppointmentList/>
-      </div>
-    );
-  }
-  if(activeModule=== "doctors"){
-    return(
-      <div className='dashboard'>
-         <DoctorFrom/>
-        <DoctorList/>
-      </div>
-    );
-  }
-  if(activeModule=== "inventory"){
-    return(
-      <div className='dashboard'>
-        <MedicineForm/>
-        <MedicineList/>
-      </div>
-    );
-  }
-  if(activeModule === "medicine-shop"){
-    return(
-      <div className="dashboard">
-        <MedicineShop/>
-      </div>
-    )
-  }
-  if(activeModule=== "purchase-history"){
-    return(
-      <div className="dashboard">
-        <PurchaseHistory/>
-      </div>
-    );
-  }
-  }
+      case "doctors":
+        return (
+          <>
+            <div className="dashboard-card"><DoctorForm /></div>
+            <div className="dashboard-card"><DoctorList /></div>
+          </>
+        );
+
+      case "inventory":
+        return (
+          <>
+            <div className="dashboard-card"><MedicineForm /></div>
+            <div className="dashboard-card"><MedicineList /></div>
+          </>
+        );
+
+      case "medicine-shop":
+        return (
+          <div className="dashboard-card full">
+            <MedicineShop />
+          </div>
+        );
+
+      case "purchase-history":
+        return (
+          <div className="dashboard-card full">
+            <PurchaseHistory />
+          </div>
+        );
+
+      default:
+        return <p>Select a module</p>;
+    }
+  };
+
+  return <div className="dashboard">{renderContent()}</div>;
+}

@@ -1,303 +1,133 @@
-.sales-analytics {
-  padding: 30px;
-  background-color: #f5f5f5;
-  border-radius: 8px;
-  margin: 20px;
+/* ===== MAIN ===== */
+.analytics {
+  padding: 20px;
+  background: #f8fafc;
 }
 
-.sales-analytics h2 {
-  color: #333;
+.analytics h2 {
+  margin-bottom: 15px;
+  color: #1e293b;
+}
+
+/* NO DATA */
+.no-data {
+  padding: 40px;
   text-align: center;
-  margin-bottom: 30px;
-  font-size: 28px;
+  color: #64748b;
+  background: #fff;
+  border-radius: 12px;
 }
 
-.no-data-analytics {
-  text-align: center;
-  padding: 60px 20px;
-  background-color: white;
-  border-radius: 8px;
-  color: #999;
-}
-
-.no-data-analytics p {
-  font-size: 16px;
-  margin: 0;
-}
-
-.analytics-container {
+/* GRID */
+.analytics-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 30px;
-}
-
-.chart-section {
-  background-color: white;
-  padding: 25px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.chart-section h3 {
-  color: #333;
-  margin: 0 0 20px 0;
-  text-align: center;
-  font-size: 18px;
-}
-
-.pie-label {
-  font-weight: 600;
-  font-size: 14px;
-}
-
-.summary-section {
-  background-color: white;
-  padding: 25px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
   gap: 20px;
 }
 
-.summary-section h3 {
-  color: #333;
-  margin: 0;
-  text-align: center;
-  font-size: 18px;
+/* ===== CHART CARD ===== */
+.chart-card {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
 }
 
-.summary-cards {
+.chart-card h3 {
+  margin-bottom: 10px;
+}
+
+/* ===== SUMMARY ===== */
+.summary-card {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+/* MINI CARDS */
+.cards {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 12px;
 }
 
-.summary-card {
+.mini-card {
   display: flex;
   align-items: center;
-  gap: 15px;
-  padding: 15px;
-  background-color: #f9f9f9;
-  border-radius: 6px;
-  border-left: 4px solid #ddd;
+  gap: 12px;
+  padding: 10px;
+  border-radius: 10px;
+  background: #f1f5f9;
 }
 
-.card-color {
-  width: 30px;
-  height: 30px;
-  border-radius: 4px;
-  flex-shrink: 0;
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
 }
 
-.card-content {
-  flex: 1;
-}
-
-.card-content h4 {
-  margin: 0 0 5px 0;
-  color: #333;
+.mini-card h4 {
+  margin: 0;
   font-size: 14px;
 }
 
-.card-amount {
-  margin: 0 0 5px 0;
-  color: #28a745;
-  font-weight: 700;
-  font-size: 16px;
-}
-
-.card-percentage {
+.mini-card p {
   margin: 0;
-  color: #666;
-  font-size: 13px;
+  font-weight: bold;
 }
 
-.total-collection {
-  background-color: #f0f8ff;
-  padding: 20px;
-  border-radius: 6px;
-  border-left: 4px solid #17a2b8;
-  text-align: center;
+.mini-card small {
+  color: #64748b;
 }
 
-.total-collection label {
-  display: block;
-  color: #666;
-  font-weight: 600;
-  font-size: 13px;
-  margin-bottom: 10px;
-  text-transform: uppercase;
-}
-
-.total-amount {
-  margin: 0;
-  color: #17a2b8;
-  font-weight: 700;
-  font-size: 28px;
-}
-
-.breakdown-table {
+/* TOTAL BOX */
+.total-box {
   margin-top: 15px;
+  padding: 15px;
+  background: linear-gradient(135deg, #4f46e5, #06b6d4);
+  color: white;
+  border-radius: 12px;
 }
 
-.breakdown-table h4 {
-  color: #333;
-  margin: 0 0 15px 0;
-  font-size: 14px;
+/* TABLE */
+.table-box {
+  margin-top: 15px;
+  overflow-x: auto;
 }
 
-.breakdown-table table {
+table {
   width: 100%;
   border-collapse: collapse;
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  overflow: hidden;
 }
 
-.breakdown-table th {
-  background-color: #f0f0f0;
-  padding: 12px;
-  text-align: left;
-  font-weight: 600;
-  color: #333;
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid #e2e8f0;
   font-size: 13px;
-  border-bottom: 1px solid #ddd;
 }
 
-.breakdown-table td {
-  padding: 12px;
-  border-bottom: 1px solid #eee;
-  font-size: 13px;
-  color: #666;
+.total-row {
+  font-weight: bold;
 }
 
-.breakdown-table tr:hover {
-  background-color: #f9f9f9;
-}
+/* ===================== */
+/* RESPONSIVE */
+/* ===================== */
 
-.breakdown-table .total-row {
-  background-color: #f0f0f0;
-  font-weight: 700;
-  color: #333;
-}
-
-.breakdown-table .total-row td {
-  border-bottom: none;
-}
-
-@media (max-width: 1024px) {
-  .analytics-container {
+@media (max-width: 900px) {
+  .analytics-grid {
     grid-template-columns: 1fr;
   }
 }
 
-@media (max-width: 768px) {
-  .sales-analytics {
-    padding: 15px;
-  }
-
-  .chart-section,
-  .summary-section {
-    padding: 15px;
-  }
-
-  .sales-analytics h2 {
-    font-size: 22px;
-    margin-bottom: 20px;
-  }
-
-  .breakdown-table th,
-  .breakdown-table td {
-    padding: 8px;
-    font-size: 12px;
-  }
-}
-
-/* ✅ Improve Tablet */
-@media (max-width: 768px) {
-  .summary-card {
-    padding: 12px;
-    gap: 10px;
-  }
-
-  .card-content h4 {
-    font-size: 13px;
-  }
-
-  .card-amount {
-    font-size: 15px;
-  }
-
-  .card-percentage {
-    font-size: 12px;
-  }
-
-  .total-amount {
-    font-size: 24px;
-  }
-}
-
-/* ✅ Mobile */
-@media (max-width: 480px) {
-  .sales-analytics {
+@media (max-width: 500px) {
+  .analytics {
     padding: 10px;
-    margin: 10px;
   }
 
-  .sales-analytics h2 {
-    font-size: 18px;
-  }
-
-  .chart-section,
-  .summary-section {
-    padding: 12px;
-    border-radius: 6px;
-  }
-
-  .chart-section h3,
-  .summary-section h3 {
-    font-size: 15px;
-  }
-
-  /* 📊 Chart labels */
-  .pie-label {
-    font-size: 12px;
-  }
-
-  /* 📦 Summary cards */
+  .chart-card,
   .summary-card {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .card-color {
-    width: 20px;
-    height: 20px;
-  }
-
-  /* 💰 Total */
-  .total-collection {
-    padding: 12px;
-  }
-
-  .total-amount {
-    font-size: 20px;
-  }
-
-  /* 📋 Table scroll fix */
-  .breakdown-table {
-    overflow-x: auto;
-  }
-
-  .breakdown-table table {
-    min-width: 500px;   /* 🔥 prevent squeeze */
-  }
-
-  .breakdown-table th,
-  .breakdown-table td {
-    padding: 8px;
-    font-size: 11px;
+    padding: 15px;
   }
 }

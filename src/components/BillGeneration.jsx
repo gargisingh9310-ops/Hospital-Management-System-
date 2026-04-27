@@ -1,146 +1,168 @@
-import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { ADD_BILL, UPDATE_APPOINTMENT } from '../Redux/constants';
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { ADD_BILL, UPDATE_APPOINTMENT } from "../Redux/constants";
+import { FiX, FiUser, FiFileText } from "react-icons/fi";
 import "../stylesheet/BillGeneration.css";
 
-export default function BillGeneration({appointment, onClose}) {
-    const dispatch= useDispatch();
-    const medicines= useSelector((state)=> state.medicines);
-    const doctors= useSelector((state)=> state.doctors);
-    const patients= useSelector((state)=> state.patients);
+export default function BillGeneration({ appointment, onClose }) {
+  const dispatch = useDispatch();
+  const medicines = useSelector((state) => state.medicines);
+  const doctors = useSelector((state) => state.doctors);
+  const patients = useSelector((state) => state.patients);
 
-    const [selectedMedicines, setSelectedMedicines]= useState([]);
+  const [selectedMedicines, setSelectedMedicines] = useState([]);
+  const [popup, setPopup] = useState(""); // ✅ custom popup
 
-    const doctor= doctors.find((d)=> d.id === appointment.doctorId);
-    const patient= patients.find((p)=> p.id === appointment.patientId);
+  const doctor = doctors.find((d) => d.id === appointment.doctorId);
+  const patient = patients.find((p) => p.id === appointment.patientId);
 
-    const handleMedicineSelect= (medicineId) => {
-        if(selectedMedicines.includes(medicineId)){
-            setSelectedMedicines(selectedMedicines.filter((id) => id !== medicineId));
-        }else{
-            setSelectedMedicines([...selectedMedicines, medicineId]);
-        };
+  const handleMedicineSelect = (id) => {
+    setSelectedMedicines((prev) =>
+      prev.includes(id)
+        ? prev.filter((m) => m !== id)
+        : [...prev, id]
+    );
+  };
+
+  const calculateTotal = () => {
+    let total = doctor?.fee || 0;
+
+    selectedMedicines.forEach((id) => {
+      const med = medicines.find((m) => m.id === id);
+      if (med) total += Number(med.price);
+    });
+
+    return total;
+  };
+
+  const handleGenerateBill = () => {
+    const billData = {
+      id: Date.now(),
+      appointmentId: appointment.id,
+      patientName: patient?.name,
+      patientId: appointment.patientId,
+      doctorName: doctor?.name,
+      doctorId: appointment.doctorId,
+      doctorFee: doctor?.fee || 0,
+      medicines: selectedMedicines.map((id) => {
+        const m = medicines.find((x) => x.id === id);
+        return { id: m.id, name: m.name, price: m.price };
+      }),
+      totalAmount: calculateTotal(),
+      date: new Date().toLocaleDateString("en-IN"),
+      time: new Date().toLocaleTimeString("en-IN"),
     };
 
-    const calculateTotal= ()=>{
-        let total= doctor?.fee || 0;
-        selectedMedicines.forEach((medId)=> {
-            const medicine= medicines.find((m)=> m.id === medId);
-            if(medicine) total += medicine.price
-        });
-        return total;
-    };
+    dispatch({ type: ADD_BILL, payload: billData });
 
-    const handleGenerateBill= ()=> {
-        const billDate= {
-            id: Date.now(),
-            appointmentId: appointment.id,
-            patientName : patient?.name,
-            patientId: appointment.patientId,
-            doctorName: doctor?.fee || 0,
-            doctorId: appointment.doctorId,
-            doctorFee: doctor?.fee || 0,
-            medicines: selectedMedicines.map((medId) => {
-                const medicine = medicines.find((m)=> m.id === medId)
-                return{
-                    id:medicine.id,
-                    name: medicine.name,
-                    price: medicine.price,
-                }
-            }),
-            totalAmount: calculateTotal(),
-            date: new Date().toLocaleDateString("en-IN"),
-            time: new Date().toLocaleTimeString("en-IN"),
-        }
+    dispatch({
+      type: UPDATE_APPOINTMENT,
+      payload: { ...appointment, visited: true },
+    });
 
-        dispatch({type: ADD_BILL, payload: billDate})
-        dispatch({
-            type: UPDATE_APPOINTMENT,
-            payload: {...appointment, visited: true},
-        });
+    // ✅ popup instead of alert
+    setPopup("Bill generated successfully ✔");
 
-        alert("Bill generated successfully!")
-        onClose();
-    }
-
+    setTimeout(() => {
+      setPopup("");
+      onClose();
+    }, 1200);
+  };
 
   return (
-    <div className='bill-generation'>
-        <div className='bill-modal'>
-            <div className='bill-header'>
-                <h2>Generate Bill</h2>
-                <button className='close-btn' onClick={onClose}>X</button>
-            </div>
+    <div className="bill-overlay">
 
-           <div className='bill-content'>
-            <div className='patient-doctor-info'>
-                <div className='info-block'>
-                    <label >Patient:</label>
-                    <p>Dr. {patient?.name}</p>
-                </div>
-                <div className='info-block'>
-                    <label>Doctor:</label>
-                    <p>Dr. {doctor?.name}</p>
-                </div>
-            </div>
-
-            <div className='bill-section'>
-                <h3>Doctor Consultetion</h3>
-                <div className='fee-item'>
-                    <span className='price'>₹{doctor?.fee}</span>
-                </div>
-            </div>
-
-            <div className='bill-section'>
-                <h3>Select Medicines</h3>
-                {medicines.length === 0 ?(
-                    <p className='no-medicines'>No Medicines Available</p>
-                ):(
-                    <div className='medicines-list'>
-                        {medicines.map((medicine) => (
-                            <div key={medicine.id} className='medicine-item'>
-                                <input type="checkbox" 
-                                id={`med-${medicine.id}`}
-                                checked={selectedMedicines.includes(medicine.id)}
-                                onChange={()=> handleMedicineSelect(medicine.id)}
-                                />
-                                <label htmlFor={`med-${medicine.id}`} className='medicine-info'>
-                                    <span className='medicine-name'>{medicine.name}</span>
-                                    <span className='medicine-price'>₹{medicine.price}</span>
-                                </label>
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </div>
-
-            <div className='bill-summary'>
-                <div className='summary-row'>
-                    <span>Doctor Fee:</span>
-                    <span>₹{doctor?.fee}</span>
-                </div>
-                {selectedMedicines.length > 0 && (
-                    <div className='summary-row'>
-                        <span>Medicines:</span>
-                        <span>₹{selectedMedicines.reduce((sum, medId) => {
-                            const med= medicines.find((m)=> m.id === medId)
-                            return sum+(med?.price || 0)
-                        }, 0)}</span>
-                    </div>
-                )}
-
-                <div className='summary-row-total'>
-                    <span>Total Amount:</span>
-                    <span>₹{calculateTotal()}</span>
-                </div>
-            </div>
-
-            <div className='bill-actions'>
-                <button className='btn-generate' onClick={handleGenerateBill}>Generate Bill</button>
-                <button className='btn-cancel' onClick={onClose}>Cancel</button>
-            </div>
-            </div> 
+      {/* ✅ POPUP */}
+      {popup && (
+        <div className="custom-popup">
+          {popup}
         </div>
+      )}
+
+      <div className="bill-modal">
+
+        {/* HEADER */}
+        <div className="bill-header">
+          <h2>
+            <FiFileText /> Generate Bill
+          </h2>
+
+          <button className="close-btn" onClick={onClose}>
+            <FiX />
+          </button>
+        </div>
+
+        {/* CONTENT */}
+        <div className="bill-content">
+
+          {/* INFO */}
+          <div className="info-row">
+            <div className="info-box">
+              <FiUser />
+              <span>{patient?.name}</span>
+            </div>
+
+            <div className="info-box">
+              <FiUser />
+              <span>Dr. {doctor?.name}</span>
+            </div>
+          </div>
+
+          {/* FEE */}
+          <div className="section">
+            <h3>Consultation Fee</h3>
+            <div className="fee">₹{doctor?.fee}</div>
+          </div>
+
+          {/* MEDICINES */}
+          <div className="section">
+            <h3>Select Medicines</h3>
+
+            {medicines.length === 0 ? (
+              <p className="empty">No medicines available</p>
+            ) : (
+              <div className="medicine-list">
+                {medicines.map((m) => (
+                  <label key={m.id} className="medicine-item">
+                    <input
+                      type="checkbox"
+                      checked={selectedMedicines.includes(m.id)}
+                      onChange={() => handleMedicineSelect(m.id)}
+                    />
+                    <span>{m.name}</span>
+                    <span>₹{m.price}</span>
+                  </label>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* SUMMARY */}
+          <div className="summary">
+            <div className="row">
+              <span>Doctor Fee</span>
+              <span>₹{doctor?.fee}</span>
+            </div>
+
+            <div className="row total">
+              <span>Total</span>
+              <span>₹{calculateTotal()}</span>
+            </div>
+          </div>
+
+          {/* ACTIONS */}
+          <div className="actions">
+            <button className="btn primary" onClick={handleGenerateBill}>
+              Generate Bill
+            </button>
+
+            <button className="btn secondary" onClick={onClose}>
+              Cancel
+            </button>
+          </div>
+
+        </div>
+      </div>
     </div>
-  )
+  );
 }

@@ -1,122 +1,141 @@
+/* ===== MAIN ===== */
 .medicine-list {
+  background: #fff;
   padding: 20px;
-  background-color: #f5f5f5;
-  border-radius: 8px;
-  margin-top: 20px;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.05);
 }
 
+/* TITLE */
 .medicine-list h2 {
-  color: #333;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
+  color: #2563eb;
 }
 
-.medicine-list table {
+/* EMPTY */
+.empty {
+  text-align: center;
+  color: #64748b;
+}
+
+/* ===== TABLE ===== */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+table {
   width: 100%;
   border-collapse: collapse;
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.medicine-list th {
-  background-color: #17a2b8;
-  color: white;
+thead {
+  background: #f1f5f9;
+}
+
+th, td {
   padding: 12px;
   text-align: left;
-  font-weight: 600;
-}
-
-.medicine-list td {
-  padding: 12px;
-  border-bottom: 1px solid #ddd;
-}
-
-.medicine-list tr:hover {
-  background-color: #f9f9f9;
-}
-
-.quantity-badge {
-  display: inline-block;
-  background-color: #28a745;
-  color: white;
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.quantity-badge.low {
-  background-color: #ffc107;
-  color: #333;
-}
-
-.medicine-list .delete-btn {
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
-  cursor: pointer;
   font-size: 14px;
-  transition: background-color 0.3s;
 }
 
-.medicine-list .delete-btn:hover {
-  background-color: #c82333;
+tbody tr {
+  border-bottom: 1px solid #e2e8f0;
+  transition: 0.2s;
 }
 
-.medicine-list p {
-  text-align: center;
-  color: #999;
-  padding: 20px;
-  font-size: 16px;
+tbody tr:hover {
+  background: #f8fafc;
 }
 
-/* ✅ Tablet */
+/* NAME */
+.name {
+  font-weight: 600;
+}
+
+/* ===== BADGES ===== */
+.badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* LOW STOCK */
+.badge.low {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* MEDIUM */
+.badge.medium {
+  background: #fef9c3;
+  color: #ca8a04;
+}
+
+/* HIGH */
+.badge.high {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+/* ===== BUTTON ===== */
+.btn {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* DELETE */
+.btn.delete {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* ========================= */
+/* RESPONSIVE */
+/* ========================= */
+
+/* TABLET */
 @media (max-width: 768px) {
+  th, td {
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  .btn {
+    font-size: 11px;
+    padding: 5px 8px;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
   .medicine-list {
     padding: 15px;
   }
 
-  .medicine-list th,
-  .medicine-list td {
-    padding: 10px;
-    font-size: 13px;
+  table {
+    font-size: 12px;
   }
 
-  .medicine-list .delete-btn {
-    padding: 5px 10px;
-    font-size: 13px;
+  th, td {
+    padding: 8px;
   }
 }
 
-/* ✅ Mobile */
-@media (max-width: 480px) {
+/* SMALL MOBILE */
+@media (max-width: 400px) {
   .medicine-list {
     padding: 10px;
-    overflow-x: auto;   /* 🔥 scroll enable */
   }
 
-  .medicine-list h2 {
-    font-size: 18px;
-  }
-
-  .medicine-list table {
-    min-width: 500px;   /* compress hone se bachayega */
-  }
-
-  .medicine-list th,
-  .medicine-list td {
-    padding: 8px;
-    font-size: 12px;
-  }
-
-  .quantity-badge {
-    font-size: 11px;
-    padding: 3px 8px;
-  }
-
-  .medicine-list .delete-btn {
-    padding: 5px 8px;
-    font-size: 12px;
+  .btn {
+    width: 100%;
+    justify-content: center;
   }
 }

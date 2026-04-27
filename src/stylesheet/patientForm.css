@@ -1,61 +1,145 @@
-.patient-form {
-  background: #fff;
-  padding: 15px;
-  margin-bottom: 15px;
-  border-radius: 5px;
+/* ===== WRAPPER ===== */
+.patient-wrapper {
   display: flex;
-  gap: 10px;
+  justify-content: center;
+  padding: 20px;
 }
 
-.patient-form input,
-.patient-form select {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+/* ===== FORM ===== */
+.patient-form {
+  width: 100%;
+  max-width: 600px;
+  background: #ffffff;
+  padding: 25px 30px;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
-.patient-form button {
-  padding: 8px 12px;
+/* ===== TITLE ===== */
+.patient-form h2 {
+  text-align: center;
+  color: #2563eb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ===== GRID ===== */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+/* FULL WIDTH */
+.form-group.full {
+  grid-column: span 2;
+}
+
+/* ===== GROUP ===== */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* LABEL */
+.form-group label {
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* INPUT + SELECT */
+.form-group input,
+.form-group select {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  outline: none;
+  background: #f9fafb;
+  font-size: 14px;
+  transition: 0.25s;
+}
+
+/* FOCUS */
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #2563eb;
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(37,99,235,0.15);
+}
+
+/* BUTTON */
+button {
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 12px;
   border: none;
-  background-color: #1976d2;
+  background: linear-gradient(135deg, #2563eb, #06b6d4);
   color: white;
+  font-weight: 600;
   cursor: pointer;
-  border-radius: 4px;
+  transition: 0.3s;
 }
 
-.patient-form button:hover {
-  background-color: #1565c0;
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
 }
 
-/* ✅ Tablet */
+/* ========================= */
+/* RESPONSIVE */
+/* ========================= */
+
+/* TABLET */
 @media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-group.full {
+    grid-column: span 1;
+  }
+
   .patient-form {
-    flex-wrap: wrap;   /* wrap hone lage */
-    gap: 8px;
-  }
-
-  .patient-form input,
-  .patient-form select {
-    flex: 1 1 45%;   /* 2 columns */
-  }
-
-  .patient-form button {
-    flex: 1 1 100%;  /* full width button */
+    padding: 20px;
   }
 }
 
-/* ✅ Mobile */
-@media (max-width: 480px) {
-  .patient-form {
-    flex-direction: column;  /* ek ke niche ek */
-    padding: 12px;
+/* MOBILE */
+@media (max-width: 600px) {
+  .patient-wrapper {
+    padding: 15px;
   }
 
-  .patient-form input,
-  .patient-form select,
-  .patient-form button {
-    width: 100%;
+  .patient-form {
+    padding: 18px;
+  }
+
+  input, select {
     font-size: 13px;
-    padding: 8px;
+  }
+
+  button {
+    font-size: 14px;
+  }
+}
+
+/* SMALL MOBILE */
+@media (max-width: 400px) {
+  .patient-form {
+    padding: 15px;
+  }
+
+  button {
+    width: 100%;
   }
 }

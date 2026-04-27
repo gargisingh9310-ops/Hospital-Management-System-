@@ -1,163 +1,182 @@
-import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { DELETE_BILL } from '../Redux/constants';
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { DELETE_BILL } from "../Redux/constants";
+import { FiPrinter, FiTrash2 } from "react-icons/fi";
 import "../stylesheet/BillList.css";
 
 export default function BillList() {
-    const dispatch= useDispatch();
-    const bills= useSelector((state) => state.bills)
-    const [deleteConfirm, setDeleteConfirm]= useState(null);
+  const dispatch = useDispatch();
+  const bills = useSelector((state) => state.bills);
 
-    const handleDelete= (id)=> {
-        dispatch({type: DELETE_BILL, payload: id});
-        setDeleteConfirm(null);
-        alert("Bill deleted successfully")
-    };
+  const [deleteConfirm, setDeleteConfirm] = useState(null);
+  const [popup, setPopup] = useState(""); // ✅ custom popup
 
-    const handlePrint= (bill)=> {
-        const printWindow= window.open("", "", "height=600, width=800");
-        printWindow.document.write(`
-            <html>
-            <head>
-            <title>Bill - ${bill.patientName}</title>
-            <style>
-            body { font-family: Arial, sans-serif; margin:20px; }
-            .bill-container{max-width: 600px; margin:0 auto;}
-            .bill-header {text-align: center; border-bottom: 2px sollid #333; padding-bottom: 10px; margin-bottom: 2px}
-            .bill-header h1 {margin: 0;}
-            .info-section {margin: 20px 0; display: flex; justify-content: space-between;}
-            info-block{flex:1;}
-            .info-block label {font-weight: bold; color: #666;}
-            .info-block p{margin: 5px 0;}
-            table{width: 100%; border-collapse: collapse; margin: 20px 0;}
-            th{background-color: #f0f0f0; padding:10px; text-align:left; border-bottom: 1px solid #ddd;}
-            td{padding: 10px; border-bottom: 1px solid #ddd}
-            .bill-total{text-align: right; font-weight: bold; font-size: 18px; padding-top: 20px; border-top: 2px solid #333}
-            .print-footer{text-align: center; margin-top: 30px; color: #999}
-          </style> 
-        </head>
+  const handleDelete = (id) => {
+    dispatch({ type: DELETE_BILL, payload: id });
+    setDeleteConfirm(null);
+
+    // ❌ alert removed → custom popup
+    setPopup("Bill deleted successfully ✔");
+
+    setTimeout(() => setPopup(""), 1200);
+  };
+
+  const handlePrint = (bill) => {
+    const printWindow = window.open("", "", "height=600,width=800");
+
+    printWindow.document.write(`
+      <html>
+      <head>
+        <title>Bill - ${bill.patientName}</title>
+        <style>
+          body { font-family: Arial; padding:20px; }
+          .container { max-width:600px; margin:auto; }
+          h1 { text-align:center; }
+          .row { display:flex; justify-content:space-between; margin:10px 0; }
+          table { width:100%; border-collapse: collapse; margin-top:20px; }
+          th, td { padding:10px; border-bottom:1px solid #ddd; }
+          .total { text-align:right; font-weight:bold; margin-top:20px; }
+        </style>
+      </head>
       <body>
-  <div class="bill-container">
-    <div class="bill-header">
-      <h1>Hospital Management System</h1>
-      <p>Bill Receipt</p>
-    </div>
+        <div class="container">
+          <h1>Hospital Bill</h1>
 
-    <div class="info-section">
-      <div class="info-block">
-        <label>Patient:</label>
-        <p>${bill.PatientName}</p>
-      </div>
-      <div class="info-block">
-        <label>Doctor:</label>
-        <p>Dr. ${bill.doctorName}</p>
-      </div>
-    </div>
+          <div class="row">
+            <div>Patient: ${bill.patientName}</div>
+            <div>Doctor: Dr. ${bill.doctorName}</div>
+          </div>
 
-    <div class="info-section">
-      <div class="info-block">
-        <label>Date:</label>
-        <p>${bill.date}</p>
-      </div>
-      <div class="info-block">
-        <label>Time:</label>
-        <p>${bill.time}</p>
-      </div>
-    </div>
+          <div class="row">
+            <div>Date: ${bill.date}</div>
+            <div>Time: ${bill.time}</div>
+          </div>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Description</th>
-          <th>Amount (₹)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Doctor consultation</td>
-          <td>₹{bill.doctorFee}</td>
-        </tr>
-        ${bill.medicines.map((med)=> `
-          <tr>
-            <td>${med.name}</td>
-            <td>${med.price}</td>
-          </tr>
-          `).join("")}
-      </tbody>
-    </table>
+          <table>
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>Amount (₹)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Consultation</td>
+                <td>${bill.doctorFee}</td>
+              </tr>
 
-    <div class="bill-total">
-      <div>Total Amount: ₹${bill.totalAmount}</div>
-    </div>
+              ${bill.medicines
+                .map(
+                  (m) => `
+                  <tr>
+                    <td>${m.name}</td>
+                    <td>${m.price}</td>
+                  </tr>
+                `
+                )
+                .join("")}
+            </tbody>
+          </table>
 
-    <div class="print-footer">
-      <p>Thank you for visiting us!</p>
-    </div>
-  </div>
-</body>
-</html>  
-`);
-printWindow.document.close();
-printWindow.print();
-};
+          <div class="total">
+            Total: ₹${bill.totalAmount}
+          </div>
+        </div>
+      </body>
+      </html>
+    `);
+
+    printWindow.document.close();
+    printWindow.print();
+  };
 
   return (
-    <div className='bill-list'>
-      <h2>Bills</h2>
-      {bills.length === 0? (
-        <p className='no-data'>No bills generated yet</p>
-      ): (
-        <div className='bills-container'>
-          {bills.map((bill)=> (
-            <div key={bill.id} className='bill-card'>
-              <div className='bill-card-header'>
+    <div className="bill-list">
+
+      {/* ✅ POPUP */}
+      {popup && <div className="custom-popup">{popup}</div>}
+
+      <h2>Billing Records</h2>
+
+      {bills.length === 0 ? (
+        <p className="no-data">No bills available</p>
+      ) : (
+        <div className="bills-container">
+          {bills.map((bill) => (
+            <div key={bill.id} className="bill-card">
+
+              {/* HEADER */}
+              <div className="bill-header">
                 <div>
                   <h3>{bill.patientName}</h3>
-                  <p className='bill-date'> Dr. {bill.doctorName} . {bill.date}</p>
+                  <p>Dr. {bill.doctorName} • {bill.date}</p>
                 </div>
-                <div className='bill-amount'>₹{bill.totalAmount}</div>
+                <span className="amount">₹{bill.totalAmount}</span>
               </div>
 
-              <div className='bill-card-body'>
-                <div className='bill-item'>
-                  <span>Consultation Fee</span>
+              {/* BODY */}
+              <div className="bill-body">
+                <div className="row">
+                  <span>Consultation</span>
                   <span>₹{bill.doctorFee}</span>
                 </div>
 
-                {bill.medicines.length > 0 &&(
+                {bill.medicines.length > 0 && (
                   <>
-                  <div className='bill-divider'></div>
-                  <div className='medicines-section'>
-                    <p className='section-title'>Medicines:</p>
-                    {bill.medicines.map((med, idx)=> (
-                      <div key={idx} className='medicine-line'>
-                        <span>{med.name}</span>
-                        <span>₹{med.price}</span>
+                    <div className="divider"></div>
+                    {bill.medicines.map((m, i) => (
+                      <div key={i} className="row">
+                        <span>{m.name}</span>
+                        <span>₹{m.price}</span>
                       </div>
                     ))}
-                  </div>
                   </>
                 )}
               </div>
 
-              <div className='bill-card-footer'>
+              {/* FOOTER */}
+              <div className="bill-footer">
+
                 {deleteConfirm === bill.id ? (
-                  <div className='confirm-delete'>
+                  <div className="confirm-box">
                     <p>Delete this bill?</p>
-                    <button className='btn-confirm-delete' onClick={()=> handleDelete(bill.id)}>
-                      Yes
-                    </button>
-                    <button className='btn-cancel-delete' onClick={()=> setDeleteConfirm(null)}>
-                      No
-                    </button>
+
+                    <div className="confirm-actions">
+                      <button
+                        className="btn danger"
+                        onClick={() => handleDelete(bill.id)}
+                      >
+                        Yes
+                      </button>
+
+                      <button
+                        className="btn"
+                        onClick={() => setDeleteConfirm(null)}
+                      >
+                        No
+                      </button>
+                    </div>
                   </div>
-                ): (
+                ) : (
                   <>
-                  <button className='btn-print' onClick={()=> handlePrint(bill)}>Print Bill</button>
-                  <button className='btn-delete-bill' onClick={()=> setDeleteConfirm(bill.id)}>Delete</button>
+                    <button
+                      className="btn print"
+                      onClick={() => handlePrint(bill)}
+                    >
+                      <FiPrinter /> Print
+                    </button>
+
+                    <button
+                      className="btn delete"
+                      onClick={() => setDeleteConfirm(bill.id)}
+                    >
+                      <FiTrash2 /> Delete
+                    </button>
                   </>
                 )}
+
               </div>
+
             </div>
           ))}
         </div>

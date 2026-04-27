@@ -1,46 +1,86 @@
-*{
+:root {
+  --primary: #2563eb;
+  --secondary: #06b6d4;
+  --bg: #f1f5f9;
+  --text: #0f172a;
+  --white: #ffffff;
+  --sidebar: #0b1220;
+}
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
 
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* LAYOUT */
 .app-container {
   display: flex;
   height: 100vh;
-  font-family: Arial, sans-serif;
 }
 
-.main-content {
+/* MAIN */
+.main-container {
   flex: 1;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
+/* NAVBAR */
+.navbar {
+  height: 60px;
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.navbar-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* MENU ICON */
+.menu-icon {
+  display: none;
+  cursor: pointer;
+  color: var(--primary);
+}
+
+/* DASHBOARD */
 .dashboard-container {
+  flex: 1;
   padding: 20px;
   overflow-y: auto;
-  background-color: #f5f5f5;
 }
 
-/* ✅ Mobile Responsive */
+/* SCROLL */
+.dashboard-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dashboard-container::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 10px;
+}
+
+/* MOBILE */
 @media (max-width: 768px) {
   .app-container {
-    flex-direction: column;   /* side-by-side se upar-niche */
-    height: auto;             /* fixed height hata diya */
+    flex-direction: column;
   }
 
-  .main-content {
-    width: 100%;
-  }
-
-  .dashboard-container {
-    padding: 10px;            /* thoda compact */
-  }
-}
-
-/* ✅ Extra Small Devices */
-@media (max-width: 480px) {
-  .dashboard-container {
-    padding: 8px;
+  .menu-icon {
+    display: block;
   }
 }

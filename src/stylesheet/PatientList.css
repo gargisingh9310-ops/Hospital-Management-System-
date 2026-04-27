@@ -1,102 +1,147 @@
+/* ===== MAIN ===== */
 .patient-list {
+  background: #fff;
   padding: 20px;
-  background-color: #f5f5f5;
-  border-radius: 8px;
-  margin-top: 20px;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.05);
 }
 
+/* TITLE */
 .patient-list h2 {
-  color: #333;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
+  color: #2563eb;
 }
 
-.patient-list table {
+/* EMPTY */
+.empty {
+  text-align: center;
+  color: #64748b;
+}
+
+/* ===== TABLE ===== */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+table {
   width: 100%;
   border-collapse: collapse;
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.patient-list th {
-  background-color: #007bff;
-  color: white;
+thead {
+  background: #f1f5f9;
+}
+
+th, td {
   padding: 12px;
   text-align: left;
+  font-size: 14px;
+}
+
+tbody tr {
+  border-bottom: 1px solid #e2e8f0;
+  transition: 0.2s;
+}
+
+tbody tr:hover {
+  background: #f8fafc;
+}
+
+/* ID */
+.id {
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* NAME */
+.name {
   font-weight: 600;
 }
 
-.patient-list td {
-  padding: 12px;
-  border-bottom: 1px solid #ddd;
+/* ===== BADGES ===== */
+.age-badge {
+  background: #e0f2fe;
+  color: #0369a1;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
 }
 
-.patient-list tr:hover {
-  background-color: #f9f9f9;
+/* GENDER */
+.gender {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
 }
 
-.patient-list .delete-btn {
-  background-color: #dc3545;
-  color: white;
+.gender.male {
+  background: #dbeafe;
+  color: #2563eb;
+}
+
+.gender.female {
+  background: #fce7f3;
+  color: #db2777;
+}
+
+/* ===== BUTTON ===== */
+.btn {
+  padding: 6px 10px;
+  border-radius: 8px;
   border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
   cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
-.patient-list .delete-btn:hover {
-  background-color: #c82333;
+/* DELETE */
+.btn.delete {
+  background: #fee2e2;
+  color: #dc2626;
 }
 
-.patient-list p {
-  text-align: center;
-  color: #999;
-  padding: 20px;
-  font-size: 16px;
-}
+/* ========================= */
+/* RESPONSIVE */
+/* ========================= */
 
-/* ✅ Tablet */
+/* TABLET */
 @media (max-width: 768px) {
+  th, td {
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  .btn {
+    font-size: 11px;
+    padding: 5px 8px;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
   .patient-list {
     padding: 15px;
   }
 
-  .patient-list th,
-  .patient-list td {
-    padding: 10px;
-    font-size: 13px;
+  table {
+    font-size: 12px;
   }
 
-  .patient-list .delete-btn {
-    padding: 5px 10px;
-    font-size: 13px;
+  th, td {
+    padding: 8px;
   }
 }
 
-/* ✅ Mobile */
-@media (max-width: 480px) {
+/* SMALL MOBILE */
+@media (max-width: 400px) {
   .patient-list {
     padding: 10px;
-    overflow-x: auto;   /* 🔥 scroll enable */
   }
 
-  .patient-list h2 {
-    font-size: 18px;
-  }
-
-  .patient-list table {
-    min-width: 500px;   /* compress hone se bachayega */
-  }
-
-  .patient-list th,
-  .patient-list td {
-    padding: 8px;
-    font-size: 12px;
-  }
-
-  .patient-list .delete-btn {
-    padding: 5px 8px;
-    font-size: 12px;
+  .btn {
+    width: 100%;
+    justify-content: center;
   }
 }

@@ -1,237 +1,204 @@
-import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { UPDATE_MEDICINE ,ADD_PURCHASE_HISTORY } from '../Redux/constants';
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { UPDATE_MEDICINE, ADD_PURCHASE_HISTORY } from "../Redux/constants";
+import { FiSearch, FiShoppingCart, FiTrash2 } from "react-icons/fi";
 import "../stylesheet/MedicineShop.css";
 
 export default function MedicineShop() {
-    const dispatch= useDispatch();
-    const medicines= useSelector((state)=> state.medicines);
-    const patients= useSelector((state)=> state.patients)
+  const dispatch = useDispatch();
+  const medicines = useSelector((state) => state.medicines);
+  const patients = useSelector((state) => state.patients);
 
-    const [selectedPatient, setSelectedPatient]= useState("")
-    const[cart, setCart]= useState([]);
-    const[searchTerm, setSearchTerm]= useState("")
+  const [selectedPatient, setSelectedPatient] = useState("");
+  const [cart, setCart] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
-    const filteredMedicines = medicines.filter((med)=> 
-        med.name.toLowerCase().includes(searchTerm.toLocaleLowerCase()) && med.quantity > 0 );
+  const filteredMedicines = medicines.filter(
+    (med) =>
+      med.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      med.quantity > 0
+  );
 
-    const handleAddToCart= (medicine)=> {
-        if(medicine.quantity <= 0){
-            alert("medicine out os stock!")
-            return;
-        }
+  const handleAddToCart = (medicine) => {
+    const existing = cart.find((i) => i.id === medicine.id);
 
-        const existingItem= cart.find((item) => item.id === medicine.id)
-        if(existingItem){
-            if(existingItem.quantity<medicine.quantity){
-                setCart(
-                    cart.map((item) => 
-                    item.id=== medicine.id
-                ? {...item, quantity: item.quantity + 1} : item)
-                );
-            } else{
-                alert("Not enough stock!")
-            }
-        }else{
-            setCart([...cart, {...medicine, quantity: 1}])
-        }
-    };
-
-    const handleRemoveFromCart= (medicineId) => {
-        setCart(cart.filter((item) => item.id !== medicineId))
-    };
-
-    const handleQuantityChange= (medicineId, newQuantity) => {
-        const medicine= medicines.find((m) => m.id === medicineId)
-        if(newQuantity > medicine.quantity){
-            alert("Not enough stock!")
-            return;
-        }
-        if(newQuantity <= 0){
-        handleRemoveFromCart(medicineId);
-        return; 
-        }
+    if (existing) {
+      if (existing.quantity < medicine.quantity) {
         setCart(
-            cart.map((item) => 
-            item.id === medicineId? {...item, quantity: newQuantity} : item)
+          cart.map((i) =>
+            i.id === medicine.id
+              ? { ...i, quantity: i.quantity + 1 }
+              : i
+          )
         );
+      } else alert("Not enough stock!");
+    } else {
+      setCart([...cart, { ...medicine, quantity: 1 }]);
     }
+  };
 
-    const calculateTotal= ()=> {
-        return cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
-    }
+  const handleRemove = (id) => {
+    setCart(cart.filter((i) => i.id !== id));
+  };
 
-    const handleCheckout=()=> {
-        if(!selectedPatient){
-            alert("please select a patient")
-            return;
-        }
+  const handleQty = (id, qty) => {
+    const med = medicines.find((m) => m.id === id);
 
-        if(cart.length === 0){
-            alert("cart is empty")
-            return
-        }
+    if (qty > med.quantity) return alert("Not enough stock!");
+    if (qty <= 0) return handleRemove(id);
 
-        const patient= patients.find((p)=> p.id.toString()=== selectedPatient)
+    setCart(
+      cart.map((i) =>
+        i.id === id ? { ...i, quantity: qty } : i
+      )
+    );
+  };
 
-        //create purchase record
-        const purchase= {
-            id: Date.now(),
-            patientId: selectedPatient,
-            patientName: patient.name,
-            medicines: cart.map((item) => ({
-                id: item.id,
-                name: item.name,
-                price: item.price,
-                quantity: item.quantity,
-                subtotal: item.price * item.quantity,
-            })),
-            totalAmount: calculateTotal(),
-            date: new Date().toLocaleDateString("en-IN"),
-            time: new Date().toLocaleTimeString("en-IN") ,
-        }
+  const total = () =>
+    cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
 
-        //update madicine quantities
-        cart.forEach((item)=> {
-            const medicine= medicines.find((m)=> m.id === item.id);
-            dispatch({
-                type: UPDATE_MEDICINE,
-                payload: {
-                    ...medicine,
-                    quantity: medicine.quantity- item.quantity
-                },
-            });
-        });
+  const handleCheckout = () => {
+    if (!selectedPatient) return alert("Select patient");
+    if (!cart.length) return alert("Cart empty");
 
-        //add to purchase history
-        dispatch({
-            type: ADD_PURCHASE_HISTORY,
-            payload: purchase,
-        });
+    const patient = patients.find(
+      (p) => p.id.toString() === selectedPatient
+    );
 
-        setCart([])
-        setSelectedPatient("")
-        setSearchTerm("")
-        alert("purchase completed successfully")
+    const purchase = {
+      id: Date.now(),
+      patientId: selectedPatient,
+      patientName: patient.name,
+      medicines: cart,
+      totalAmount: total(),
+      date: new Date().toLocaleDateString("en-IN"),
+      time: new Date().toLocaleTimeString("en-IN"),
     };
+
+    cart.forEach((item) => {
+      const med = medicines.find((m) => m.id === item.id);
+      dispatch({
+        type: UPDATE_MEDICINE,
+        payload: {
+          ...med,
+          quantity: med.quantity - item.quantity,
+        },
+      });
+    });
+
+    dispatch({ type: ADD_PURCHASE_HISTORY, payload: purchase });
+
+    setCart([]);
+    setSelectedPatient("");
+    setSearchTerm("");
+
+    alert("Purchase successful");
+  };
+
   return (
-    <div className='medicine-shop'>
-        <div className='shop-container'>
-            <div className='shop-left'>
-                <div className='shop-header'>
-                    <h2>Medicine Shop</h2>
-                    <input type="text"
-                    placeholder='Search medicines...'
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className='search-box'
-                    />
-                </div>
+    <div className="medicine-shop">
+      <div className="shop-container">
 
-                <div className='medicines-grid'>
-                    {filteredMedicines.length === 0?(
-                        <p className='no-medicines'>No medicines available</p>
-                    ): (
-                        filteredMedicines.map((medicine) => (
-                            <div key={medicine.id} className='medicine-card'>
-                                <div className='nedicine-header'>
-                                    <h4>{medicine.name}</h4>
-                                    <span className='price'>₹{medicine.price}</span>
-                                </div>
-                                <div className='medicine-detail'>
-                                    <p><strong>Manufacturer:</strong> {medicine.manufacturer}</p>
-                                    <p><strong>Stock:</strong> <span className={medicine.quantity <= 5 ? 'low-stock' : ''}>{medicine.quantity}</span></p>
-                                </div>
-                                <button className='btn-add-cart'
-                                onClick={()=> handleAddToCart(medicine)}
-                                disabled={medicine.quantity <= 0}>
-                                    Add to Cart
-                                </button>
-                            </div>
-                        ))
-                    )}
-                </div>
+        {/* LEFT */}
+        <div className="shop-left">
+          <div className="shop-header">
+            <h2><FiShoppingCart /> Medicine Shop</h2>
+
+            <div className="search">
+              <FiSearch />
+              <input
+                type="text"
+                placeholder="Search medicine..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
             </div>
+          </div>
 
-            <div className='shop-right'>
-                <div className='cart-section'>
-                    <h3>Shopping Cart</h3>
+          <div className="med-grid">
+            {filteredMedicines.map((m) => (
+              <div key={m.id} className="med-card">
+                <h4>{m.name}</h4>
+                <p>₹{m.price}</p>
+                <span className={m.quantity <= 5 ? "low" : ""}>
+                  Stock: {m.quantity}
+                </span>
 
-                    <div className='patient-select'>
-                        <label>Select Patient</label>
-                        <select
-                        value={selectedPatient}
-                        onChange={(e)=> setSelectedPatient(e.target.value)}>
-                            <option value="">-- Select Patient --</option>
-                            {patients.map((patient) => (
-                                <option key={patient.id} value={patient.id}>{patient.name}</option>
-                            ))}
-                        </select>
-                    </div>
-
-                    {cart.length === 0? (
-                        <p className='empty-cart'>Cart is Empty</p>
-                    ): (
-                        <>
-                        <div className='cart-item'>
-                            {cart.map((item)=>(
-                                <div key={item.id} className='cart-item'>
-                                    <div className='item-info'>
-                                        <h5>{item.name}</h5>
-                                        <p className='item-price'>₹{item.price}</p>
-                                    </div>
-                                    <div className='item-quantity'>
-                                        <button onClick={()=> handleQuantityChange(
-                                            item.id,
-                                          item.quantity -1
-                                        )} className='qty-btn'>
-                                            -
-                                        </button>
-                                        <input type="number"
-                                        value={item.quantity}
-                                        onChange={(e)=> handleQuantityChange(item.id, Number(e.target.value))
-                                        } 
-                                        className='qty-input'
-                                        min="1"
-                                        />
-                                        <button 
-                                        onClick={()=> handleQuantityChange(item.id,item.quantity +1)} className='qty-btn'>
-                                            +
-                                        </button>
-                                    </div>
-                                    <div className='item-subtotal'>
-                                        <p>₹{item.quantity * item.quantity}</p>
-                                        <button onClick={()=> handleRemoveFromCart(item.id)}
-                                            className='btn-remove'>
-                                               ✕ 
-                                            </button>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-
-                        <div className='cart-summary'>
-                            <div className='summary-row'>
-                                <span>Subtotal:</span>
-                                <span>₹{calculateTotal()}</span>
-                            </div>
-                            <div className='summary-row total'>
-                                <span>Total:</span>
-                                <span>₹{calculateTotal()}</span>
-                            </div>
-                        </div>
-                        </>
-                    )}
-
-                    <button className='btn-checkout' 
-                    onClick={handleCheckout}
-                    disabled={cart.length === 0 || !selectedPatient}>
-                        Checkout
-                    </button>
-                </div>
-            </div>
+                <button onClick={() => handleAddToCart(m)}>
+                  Add to Cart
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
+
+        {/* RIGHT */}
+        <div className="shop-right">
+          <h3>Cart</h3>
+
+          <select
+            value={selectedPatient}
+            onChange={(e) => setSelectedPatient(e.target.value)}
+          >
+            <option value="">Select Patient</option>
+            {patients.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.name}
+              </option>
+            ))}
+          </select>
+
+          {cart.length === 0 ? (
+            <p className="empty">Cart empty</p>
+          ) : (
+            <>
+              {cart.map((item) => (
+                <div key={item.id} className="cart-row">
+                  
+                  <div className="cart-info">
+                    <h5>{item.name}</h5>
+                    <p>₹{item.price}</p>
+                  </div>
+
+                  <div className="qty">
+                    <button onClick={() => handleQty(item.id, item.quantity - 1)}>-</button>
+
+                    <input
+                      value={item.quantity}
+                      onChange={(e) =>
+                        handleQty(item.id, Number(e.target.value))
+                      }
+                    />
+
+                    <button onClick={() => handleQty(item.id, item.quantity + 1)}>+</button>
+                  </div>
+
+                  <div className="cart-total">
+                    ₹{item.price * item.quantity}
+                    <button onClick={() => handleRemove(item.id)}>
+                      <FiTrash2 />
+                    </button>
+                  </div>
+
+                </div>
+              ))}
+
+              <div className="total">
+                Total: ₹{total()}
+              </div>
+            </>
+          )}
+
+          <button
+            className="checkout"
+            onClick={handleCheckout}
+            disabled={!cart.length || !selectedPatient}
+          >
+            Checkout
+          </button>
+        </div>
+
+      </div>
     </div>
-  )
+  );
 }
- 
